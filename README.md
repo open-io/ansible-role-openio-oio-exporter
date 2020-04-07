@@ -13,8 +13,8 @@ An Ansible role for install oio-exporter. Specifically, the responsibilities of 
 
 | Variable   | Default | Comments (type)  |
 | :---       | :---    | :---             |
-| `openio_oio_exporter_maintenance_mode` | `{{ openio_maintenance_mode | d(false) }}` | Maintenance mode |
-| `openio_oio_exporter_bind_address` | `{{ openio_mgmt_bind_address | d(ansible_default_ipv4.address) }}` |  Binding IP address. |
+| `openio_oio_exporter_maintenance_mode` | `{{ openio_maintenance_mode \| d(false) }}` | Maintenance mode |
+| `openio_oio_exporter_bind_address` | `{{ openio_mgmt_bind_address \| d(ansible_default_ipv4.address) }}` |  Binding IP address. |
 | `openio_oio_exporter_bind_port` | `6920` |  Listening port. |
 
 ## Dependencies
