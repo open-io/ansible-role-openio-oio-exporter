@@ -1,0 +1,44 @@
+---
+versions:
+  - name: openio
+    type: package
+    rpm: openio-sds-server
+    deb: openio-sds
+
+  - name: swift
+    type: package
+    package: openio-sds-swift
+
+  - name: s3
+    type: package
+    rpm: openio-sds-swift-plugin-swift3
+    deb: openio-sds-swift-plugin-s3
+
+  - name: zookeeper
+    type: package
+    package: zookeeper
+
+  - name: zookeeper_lib
+    type: package 
+    rpm: libzookeeper2
+    deb: libzookeeper-java
+
+{% if false %}
+  - name: oiofs
+    type: package
+    package: oiofs-fuse
+{% endif %}
+  - name: redis
+    type: command
+    command: "redis-server --version"
+    extract: " v=([\\d\\.]+) "
+
+  - name: beanstalkd
+    type: command
+    command: "beanstalkd -v"
+    extract: " (\\d+[\\d\\.]*)$"
+
+  - name: keystone
+    type: command
+    command: "keystone-manage --version"
+...

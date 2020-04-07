@@ -1,0 +1,152 @@
+---
+modules:
+  - name: account
+    prober: http
+    timeout: 5s
+    route: /status
+    method: GET
+    headers: {}
+    status_codes: [200]
+  - name: meta0
+    prober: tcp
+    timeout: 5s
+    send: !!binary AAAAMDAugCAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMIEIUkVRX1BJTkejAAo=
+    expect: ".*OK.*"
+  - name: meta1
+    prober: tcp
+    timeout: 5s
+    send: !!binary AAAAMDAugCAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMIEIUkVRX1BJTkejAAo=
+    expect: ".*OK.*"
+  - name: meta2
+    prober: tcp
+    timeout: 5s
+    send: !!binary AAAAMDAugCAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMIEIUkVRX1BJTkejAAo=
+    expect: ".*OK.*"
+  - name: conscience
+    prober: tcp
+    timeout: 5s
+    send: !!binary AAAAMDAugCAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMIEIUkVRX1BJTkejAAo=
+    expect: ".*OK.*"
+  - name: beanstalkd
+    prober: tcp
+    timeout: 5s
+    send: "stats\r\n"
+    expect: "OK.*"
+  - name: keystone
+    prober: http
+    timeout: 15s
+    method: POST
+    headers:
+      Content-Type: application/json
+    send: '{"auth": {"identity": {"methods": ["password"], "password": { "user": { "name": "h34lthch3ck", "domain": { "id": "default" }, "password": "h34lthch3ck"}}}}}'
+    status_codes: [401]
+    route: /v3/auth/tokens
+  - name: zookeeper
+    prober: tcp
+    timeout: 5s
+    send: "ruok"
+    expect: "imok"
+  - name: oiofs
+    prober: http
+    route: /stats
+    timeout: 5s
+    method: GET
+    status_codes: [200]
+  - name: account
+    prober: http
+    route: /status
+    timeout: 5s
+    method: GET
+    status_codes: [200]
+  - name: rdir
+    prober: http
+    route: /status
+    timeout: 5s
+    method: GET
+    status_codes: [200]
+  - name: oioproxy
+    prober: http
+    route: /v3.0/status
+    timeout: 5s
+    method: GET
+    status_codes: [200]
+  - name: oioswift
+    prober: http
+    route: /healthcheck
+    timeout: 5s
+    method: GET
+    status_codes: [200]
+  - name: rawx
+    prober: http
+    route: /info
+    timeout: 5s
+    method: GET
+    status_codes: [200]
+  - name: redis
+    prober: tcp
+    timeout: 5s
+    send: "PING\n"
+    expect: "PONG"
+  - name: redissentinel
+    prober: tcp
+    timeout: 5s
+    send: "PING\n"
+    expect: "PONG"
+  - name: memcached
+    prober: tcp
+    timeout: 5s
+    send: "stats\n"
+    expect: "STAT "
+  - name: galera
+    prober: tcp
+    timeout: 5s
+    send: ""
+    expect: "MariaDB"
+  - name: conscienceagent
+    prober: none
+  - name: oio-blob-indexer
+    prober: none
+  - name: oio-blob-rebuilder
+    prober: none
+  - name: oio-event-agent
+    prober: none
+  - name: keepalived
+    prober: none
+  - name: haproxy
+    prober: none
+  - name: oio-exporter
+    prober: http
+    timeout: 5s
+    route: /
+    method: GET
+    headers: {}
+    status_codes: [404]
+  - name: netdata
+    prober: http
+    timeout: 5s
+    route: /api/v1/info
+    method: GET
+    headers: {}
+    status_codes: [200]
+  - name: prometheus
+    prober: http
+    timeout: 5s
+    route: /-/ready
+    method: GET
+    headers: {}
+    status_codes: [200]
+  - name: alertmanager
+    prober: http
+    timeout: 5s
+    route: /-/ready
+    method: GET
+    headers: {}
+    status_codes: [200]
+  - name: grafana
+    prober: http
+    timeout: 5s
+    route: /api/health
+    method: GET
+    headers: {}
+    status_codes: [200]
+...

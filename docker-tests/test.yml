@@ -1,0 +1,52 @@
+---
+- hosts: all
+  become: true
+  vars:
+    namespace: TRAVIS
+
+  tasks:
+
+    - file:
+        path: "/etc/oio/sds/{{ namespace }}"
+        state: directory
+
+    - copy:
+        content: |
+          ---
+            namespaces:
+              {{ namespace }}:
+                services:
+                  oio-exporter:
+                    - config: {}
+                      id: {{ namespace }}-oio-exporter-0
+                      ip: {{ ansible_default_ipv4.address }}
+                      location: ''
+                      partition: ''
+                      port: 6920
+                      role: ''
+                      volume: null
+          ...
+        dest: "/etc/oio/sds/{{ namespace }}/inventory.yml"
+
+    - include_role:
+        name: users
+
+    - include_role:
+        name: repository
+      vars:
+        openio_repository_no_log: false
+        openio_repository_mirror_host: mirror2.openio.io
+
+    - include_role:
+        name: gridinit
+
+    - include_role:
+        name: role_under_test
+#  roles:
+#    - role: users
+#    - role: repository
+#      openio_repository_no_log: false
+#      openio_repository_mirror_host: mirror2.openio.io
+#    - role: gridinit
+#    - role: role_under_test
+...

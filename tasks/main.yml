@@ -1,0 +1,29 @@
+---
+- include_role:
+    name: openio-service
+  vars:
+    openio_service_type: "oio-exporter"
+    openio_service_maintenance_mode: "{{ openio_oio_exporter_maintenance_mode }}"
+    openio_service_packages:
+      - oio-exporter
+    openio_service_configuration_files:
+      - name: log_patterns.yml
+      - name: healthchecks.yml
+      - name: versions.yml
+    openio_service_services:
+      - command: >-
+          /usr/sbin/oio-exporter
+          -bind {{ openio_oio_exporter_bind_address }}:{{ openio_oio_exporter_bind_port }}
+          -inventory /etc/oio/sds/{{ openio_service_namespace }}/inventory.yml
+          -pattern-path {{ openio_service_conf_dir }}/log_patterns.yml
+          -healthcheck-path {{ openio_service_conf_dir }}/healthchecks.yml
+          -version-path {{openio_service_conf_dir }}/versions.yml
+          -targets {{ openio_oio_exporter_bind_address }}:{{ openio_oio_exporter_bind_port }}
+        redirect_stdout_to_syslog: true
+    openio_service_checks:
+      - uri:
+          url: "http://{{ openio_oio_exporter_bind_address }}:{{ openio_oio_exporter_bind_port }}/"
+          status_code: 404
+        retries: 10
+        delay: 2
+...
