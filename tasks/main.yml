@@ -3,6 +3,7 @@
     name: openio-service
   vars:
     openio_service_type: "oio-exporter"
+    openio_service_namespace: "{{ openio_oio_exporter_namespace }}"
     openio_service_maintenance_mode: "{{ openio_oio_exporter_maintenance_mode }}"
     openio_service_packages:
       - oio-exporter

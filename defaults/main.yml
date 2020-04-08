@@ -1,4 +1,5 @@
 ---
+openio_oio_exporter_namespace: "{{ namespace | d('OPENIO') }}"
 openio_oio_exporter_maintenance_mode: "{{ openio_maintenance_mode | d(false) }}"
 
 openio_oio_exporter_bind_address: "{{ openio_mgmt_bind_address | d(ansible_default_ipv4.address) }}"
