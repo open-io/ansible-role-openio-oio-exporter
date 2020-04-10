@@ -3,5 +3,25 @@ openio_oio_exporter_namespace: "{{ namespace | d('OPENIO') }}"
 openio_oio_exporter_maintenance_mode: "{{ openio_maintenance_mode | d(false) }}"
 
 openio_oio_exporter_bind_address: "{{ openio_mgmt_bind_address | d(ansible_default_ipv4.address) }}"
-openio_oio_exporter_bind_port: 6920
+openio_oio_exporter_bind_port: "{{ openio_oio_exporter_default_port }}"
+openio_oio_exporter_default_port: 6920
+
+openio_oio_exporter_targets_group: openio
+
+openio_oio_exporter_targets: |
+  {% set _group = openio_oio_exporter_targets_group %}
+  {% if _group in groups and groups[_group] | length > 0 and inventory_hostname in groups[_group] %}
+  {%   set _hosts = groups[_group] | sort %}
+  {%   set _target = _hosts[(_hosts.index(inventory_hostname) + 1) % (_hosts | length)] %}
+  {%   set hv = hostvars[_target] %}
+  {%   set address = hv.openio_oio_exporter_bind_address %}
+  {%   set address = address | d(hv.openio_bind_mgmt_address) %}
+  {%   set address = address | d(hv.openio_bind_address) %}
+  {%   set address = address | d(hv.ansible_default_ipv4.address) %}
+  {%   set port = hv.openio_oio_exporter_bind_port | d(openio_oio_exporter_default_port) %}
+  {% else %}
+  {%   set address = openio_oio_exporter_bind_address %}
+  {%   set port = openio_oio_exporter_bind_port %}
+  {% endif %}
+  {{   [ address ~ ':' ~  port ] }}
 ...

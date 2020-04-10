@@ -19,8 +19,10 @@
           -pattern-path {{ openio_service_conf_dir }}/log_patterns.yml
           -healthcheck-path {{ openio_service_conf_dir }}/healthchecks.yml
           -version-path {{openio_service_conf_dir }}/versions.yml
-          -targets {{ openio_oio_exporter_bind_address }}:{{ openio_oio_exporter_bind_port }}
+          -targets {{ openio_oio_exporter_targets | join(',') }}
         redirect_stdout_to_syslog: true
+        env:
+          HOME: /home/openio
     openio_service_checks:
       - uri:
           url: "http://{{ openio_oio_exporter_bind_address }}:{{ openio_oio_exporter_bind_port }}/"
