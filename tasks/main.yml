@@ -9,6 +9,10 @@
       - oio-exporter
     openio_service_configuration_files:
       - name: log_patterns.yml
+        block_start_string: '§%'
+        block_end_string: '%§'
+        variable_start_string: '§!!'
+        variable_end_string: '!!§'
       - name: healthchecks.yml
       - name: versions.yml
     openio_service_services:
