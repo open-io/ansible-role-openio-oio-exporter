@@ -1,5 +1,45 @@
-meta0: \S+ \S+ \S+ \S+  \S+ \S+ \S+ \S+ (?P<address>\S+) \S+ (?P<method>\S+) (?P<code>\d+) (?P<resp_time>\d+) (?P<bytes_sent>\d+) \S+ \S+ \S+ (?P<url>.*)
-meta1: \S+ \S+ \S+ \S+  \S+ \S+ \S+ \S+ (?P<address>\S+) \S+ (?P<method>\S+) (?P<code>\d+) (?P<resp_time>\d+) (?P<bytes_sent>\d+) \S+ \S+ \S+ (?P<url>.*)
-meta2: \S+ \S+ \S+ \S+  \S+ \S+ \S+ \S+ (?P<address>\S+) \S+ (?P<method>\S+) (?P<code>\d+) (?P<resp_time>\d+) (?P<bytes_sent>\d+) \S+ \S+ \S+ (?P<url>.*)
-rawx: \S+ \S+ \S+ \S+  \S+ \S+ \S+ \S+ (?P<address>\S+) \S+ (?P<method>\S+) (?P<code>\d+) (?P<resp_time>\d+) (?P<bytes_sent>\d+) (?P<resp_length>\d+) \S+ \S+ (?P<url>.*)
-oioswift: \S+ \S+ \S+ \S+  \S+ (?P<address>\S+) \S+ (?P<method>\S+) (?P<url>\S+) \S+ (?P<code>\d+) \S+ \S+ \S+ (?P<resp_length>\d+|-) (?P<bytes_sent>\d+|-) \S+ \S+ \S+ (?P<resp_time>\d+.\d+) - \S+ \d+.\d+ \d+.\d+ -
+#service_type:
+#  log_path:                 # is relative to the service instance log directory and can contains variables (.Name .Index .Namespace .ID .IP .Port)
+#    - type: "access|match"  # access means matching an access log whereas match means only catching something from logs
+#      pattern: '^xxxx$'     # if type=access, it must have the following groups (method, code, bytes_in, bytes_out, resp_time)
+#      name:    "match name" # if type=match, it is used as the matching label. if not set, pattern will be used instead
+#
+meta0:
+  "{{ .Name }}-{{ .Index }}.access":
+    - type: access
+      pattern: '^\S+ \S+ \S+ \S+  \S+ \S+ \S+ \S+ \S+ \S+ (?P<method>\S+) (?P<code>\d+) (?P<resp_time>\d+) (?P<bytes_out>\d+) '
+  "{{ .Name }}-{{ .Index }}.log":
+    - type: match
+      name: "unmatch_exception"
+      pattern: 'assertion .+ failed'
+meta1:
+  "{{ .Name }}-{{ .Index }}.access":
+    - type: access
+      pattern: '^\S+ \S+ \S+ \S+  \S+ \S+ \S+ \S+ \S+ \S+ (?P<method>\S+) (?P<code>\d+) (?P<resp_time>\d+) (?P<bytes_out>\d+) '
+  "{{ .Name }}-{{ .Index }}.log":
+    - type: match
+      name: "unmatch_exception"
+      pattern: 'assertion .+ failed'
+meta2:
+  "{{ .Name }}-{{ .Index }}.access":
+    - type: access
+      pattern: '^\S+ \S+ \S+ \S+  \S+ \S+ \S+ \S+ \S+ \S+ (?P<method>\S+) (?P<code>\d+) (?P<resp_time>\d+) (?P<bytes_out>\d+) '
+  "{{ .Name }}-{{ .Index }}.log":
+    - type: match
+      name: "unmatch_exception"
+      pattern: 'assertion .+ failed'
+rawx:
+  "{{ .Name }}-{{ .Index }}-httpd-access.log":
+    - type: access
+      pattern: '^\S+ \S+ \S+ \S+  \S+ \S+ \S+ \S+ \S+ \S+ (?P<method>\S+) (?P<code>\d+) (?P<resp_time>\d+) (?P<bytes_out>\d+) (?P<bytes_in>\d+) '
+  "{{ .Name }}-{{ .Index }}-httpd-errors.log":
+    - type: match
+      name: "connection_reset_by_peer"
+      pattern: 'sendfile: connection reset by peer'
+oioswift:
+  "{{ .Name }}-{{ .Index }}.log":
+    - type: access
+      pattern: '^\S+ \S+ \S+ \S+  \S+ \S+ \S+ (?P<method>\S+) \S+ \S+ (?P<code>\d+) \S+ \S+ \S+ (?P<bytes_in>\d+|-) (?P<bytes_out>\d+|-) \S+ \S+ \S+ (?P<resp_time>\d+\.\d+) - '
+    - type: match
+      name: "unmatch_exception"
+      pattern: "Unhandled exception"
