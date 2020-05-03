@@ -4,81 +4,106 @@ versions:
     type: package
     rpm: openio-sds-server
     deb: openio-sds
-
+{% if 'oioswift' in groups and inventory_hostname in groups.oioswift %}
   - name: swift
     type: package
     package: openio-sds-swift
-
   - name: s3
     type: package
     rpm: openio-sds-swift-plugin-swift3
     deb: openio-sds-swift-plugin-s3
-
+  - name: swift-extended
+    type: package
+    package: openio-sds-swift-extended
+{% endif %}
+{% if 'zookeeper' in groups and inventory_hostname in groups.zookeeper %}
   - name: zookeeper
     type: package
     package: zookeeper
-
   - name: zookeeper_lib
-    type: package 
+    type: package
     rpm: libzookeeper2
     deb: libzookeeper-java
-
-{% if false %}
+{% endif %}
+{% if 'galera' in groups and inventory_hostname in groups.galera %}
+  - name: galera
+    type: package
+    rpm: galera
+    deb: galera-3
+  - name: mariadb
+    type: package
+    package: mariadb-server
+{% endif %}
+{% if 'oiofs' in groups and inventory_hostname in groups.oiofs %}
   - name: oiofs
     type: package
     package: oiofs-fuse
 {% endif %}
+{% if 'redis' in groups and inventory_hostname in groups.redis %}
   - name: redis
     type: command
     command: "redis-server --version"
     extract: " v=([\\d\\.]+) "
-
+{% endif %}
+{% if 'beanstalkd' in groups and inventory_hostname in groups.beanstalkd %}
   - name: beanstalkd
     type: command
     command: "beanstalkd -v"
     extract: " (\\d+[\\d\\.]*)$"
-
+{% endif %}
+{% if 'keystone' in groups and inventory_hostname in groups.keystone %}
   - name: keystone
     type: command
     command: "keystone-manage --version"
-
+{% endif %}
+{% if 'netdata' in groups and inventory_hostname in groups.netdata %}
   - name: netdata
     type: package
     package: oio-netdata
-
+{% endif %}
+{% if 'oio_exporter' in groups and inventory_hostname in groups.oio_exporter %}
   - name: oio-exporter
     type: package
     package: oio-exporter
-
+{% endif %}
+{% if 'prometheus' in groups and inventory_hostname in groups.prometheus %}
   - name: prometheus
     type: package
     package: oio-prometheus
-
+{% endif %}
+{% if 'alertmanager' in groups and inventory_hostname in groups.alertmanager %}
   - name: alertmanager
     type: package
     package: oio-alertmanager
-
+{% endif %}
+{% if 'grafana' in groups and inventory_hostname in groups.grafana %}
   - name: grafana
     type: package
     package: oio-grafana
-
+{% endif %}
+{% if 'elasticsearch' in groups and inventory_hostname in groups.elasticsearch %}
   - name: elasticsearch
     type: package
     package: oio-elasticsearch
-
+{% endif %}
+{% if 'kibana' in groups and inventory_hostname in groups.kibana %}
   - name: kibana
     type: package
     package: oio-kibana
-
+{% endif %}
+{% if 'filebeat' in groups and inventory_hostname in groups.filebeat %}
   - name: filebeat
     type: package
     package: oio-filebeat
-
+{% endif %}
+{% if 'loki' in groups and inventory_hostname in groups.loki %}
   - name: loki
     type: package
     package: oio-loki
-
+{% endif %}
+{% if 'promtail' in groups and inventory_hostname in groups.promtail %}
   - name: promtail
     type: package
     package: oio-promtail
+{% endif %}
 ...
