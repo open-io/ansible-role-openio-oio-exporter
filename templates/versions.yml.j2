@@ -4,6 +4,13 @@ versions:
     type: package
     rpm: openio-sds-server
     deb: openio-sds
+  - name: "eventlet (python 2)"
+    type: package
+    rpm: python2-eventlet
+    deb: python-eventlet
+  - name: "eventlet (python 3)"
+    type: package
+    package: python3-eventlet
 {% if 'oioswift' in groups and inventory_hostname in groups.oioswift %}
   - name: swift
     type: package
