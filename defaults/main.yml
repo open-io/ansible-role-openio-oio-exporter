@@ -6,6 +6,10 @@ openio_oio_exporter_bind_address: "{{ openio_bind_mgmt_address | d(ansible_defau
 openio_oio_exporter_bind_port: "{{ openio_oio_exporter_default_port }}"
 openio_oio_exporter_default_port: 6920
 
+openio_oio_exporter_daemons: []
+openio_oio_exporter_nodaemons: []
+
+
 openio_oio_exporter_targets_group: openio
 
 openio_oio_exporter_targets: |
