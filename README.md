@@ -18,6 +18,8 @@ An Ansible role for install oio-exporter. Specifically, the responsibilities of 
 | `openio_oio_exporter_bind_address` | `{{ openio_bind_mgmt_address \| d(ansible_default_ipv4.address) }}` |  Binding IP address. |
 | `openio_oio_exporter_bind_port` | `{{ openio_oio_exporter_default_port }}` |  Listening port. |
 | `openio_oio_exporter_default_port` | `6920` |  Default listening port. |
+| `openio_oio_exporter_daemons` | `[]` | list of daemons to activate (all if empty) |
+| `openio_oio_exporter_nodaemons` | `[]` | list of daemons to disabled (none if empty) |
 | `openio_oio_exporter_targets_group` | `openio` | The inventory group used to search for the target. |
 | `openio_oio_exporter_targets` | The node next to the current node in the previous defined group.  | A list of targets to watch. |
 

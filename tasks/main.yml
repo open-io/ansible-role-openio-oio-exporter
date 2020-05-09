@@ -24,6 +24,12 @@
           -healthcheck-path {{ openio_service_conf_dir }}/healthchecks.yml
           -version-path {{openio_service_conf_dir }}/versions.yml
           -targets {{ openio_oio_exporter_targets | join(',') }}
+          {% if openio_oio_exporter_daemons | length > 0 -%}
+          -daemons {{ openio_oio_exporter_daemons | join(',') }}
+          {% endif -%}
+          {% if openio_oio_exporter_nodaemons | length > 0 -%}
+          -nodaemons {{ openio_oio_exporter_nodaemons | join(',') }}
+          {% endif -%}
         redirect_stdout_to_syslog: true
         env:
           HOME: /home/openio
