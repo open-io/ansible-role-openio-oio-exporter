@@ -18,6 +18,7 @@
     openio_service_services:
       - command: >-
           /usr/sbin/oio-exporter
+          -log.id "OIO,{{ openio_service_namespace}},oio-exporter,{{ openio_service_id }}"
           -bind {{ openio_oio_exporter_bind_address }}:{{ openio_oio_exporter_bind_port }}
           -inventory /etc/oio/sds/{{ openio_service_namespace }}/inventory.yml
           -pattern-path {{ openio_service_conf_dir }}/log_patterns.yml
@@ -30,7 +31,6 @@
           {% if openio_oio_exporter_nodaemons | length > 0 -%}
           -nodaemons {{ openio_oio_exporter_nodaemons | join(',') }}
           {% endif -%}
-        redirect_stdout_to_syslog: true
         env:
           HOME: /home/openio
     openio_service_checks:
