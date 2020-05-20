@@ -149,4 +149,26 @@ modules:
     method: GET
     headers: {}
     status_codes: [200]
+  - name: loki
+    prober: http
+    timeout: 5s
+    route: /ready
+    method: GET
+    headers: {}
+    status_codes: [200]
+  - name: elasticsearch
+    prober: http
+    timeout: 5s
+    route: /_cluster/health?wait_for_status=yellow&timeout=4s
+    method: GET
+    headers: {}
+    status_codes: [200]
+  - name: kibana
+    prober: http
+    timeout: 5s
+    route: /api/status
+    method: GET
+    headers: {}
+    status_codes: [200]
+    expect: '"state":"green"'
 ...
