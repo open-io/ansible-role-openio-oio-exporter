@@ -13,6 +13,7 @@ openio_oio_exporter_nodaemons: []
 openio_oio_exporter_targets_group: openio
 
 openio_oio_exporter_targets: |
+  {% set targets = [openio_oio_exporter_bind_address ~ ':' ~ openio_oio_exporter_bind_port] %}
   {% set _group = openio_oio_exporter_targets_group %}
   {% if _group in groups and groups[_group] | length > 0 and inventory_hostname in groups[_group] %}
   {%   set _hosts = groups[_group] | sort %}
@@ -23,9 +24,7 @@ openio_oio_exporter_targets: |
   {%   set address = address | d(hv.openio_bind_address) %}
   {%   set address = address | d(hv.ansible_default_ipv4.address) %}
   {%   set port = hv.openio_oio_exporter_bind_port | d(openio_oio_exporter_default_port) %}
-  {% else %}
-  {%   set address = openio_oio_exporter_bind_address %}
-  {%   set port = openio_oio_exporter_bind_port %}
+  {%   set targets = targets + [address ~ ':' ~ port] %}
   {% endif %}
-  {{   [ address ~ ':' ~  port ] }}
+  {{ targets }}
 ...
