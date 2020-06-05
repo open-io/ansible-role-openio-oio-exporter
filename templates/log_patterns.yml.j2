@@ -31,7 +31,7 @@ meta2:
 rawx:
   "{{ .Name }}-{{ .Index }}-httpd-access.log":
     - type: access
-      pattern: '^\S+ \S+ \S+ \S+  \S+ \S+ \S+ \S+ \S+ \S+ (?P<method>\S+) (?P<code>\d+) (?P<resp_time>\d+) (?P<bytes_out>\d+) (?P<bytes_in>\d+) '
+      pattern: '^\S+ \S+ \S+ \S+  \S+ \S+ \S+ \S+ \S+ \S+ (?P<method>\S+) (?P<code>\d+) (?P<resp_time>\d+) (?P<bytes_out>\d+) (?P<bytes_in>\d+) .* (?P<tag_protocol>https?)$'
   "{{ .Name }}-{{ .Index }}-httpd-errors.log":
     - type: match
       name: "connection_reset_by_peer"
