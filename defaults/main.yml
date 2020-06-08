@@ -13,7 +13,7 @@ openio_oio_exporter_nodaemons: []
 openio_oio_exporter_targets_group: openio
 
 openio_oio_exporter_targets: |
-  {% set targets = [openio_oio_exporter_bind_address ~ ':' ~ openio_oio_exporter_bind_port] %}
+  {% set targets = [] %}
   {% set _group = openio_oio_exporter_targets_group %}
   {% if _group in groups and groups[_group] | length > 0 and inventory_hostname in groups[_group] %}
   {%   set _hosts = groups[_group] | sort %}
