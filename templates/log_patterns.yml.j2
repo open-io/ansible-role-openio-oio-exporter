@@ -8,6 +8,7 @@ meta0:
   "{{ .Name }}-{{ .Index }}.access":
     - type: access
       pattern: '^\S+ \S+ \S+ \S+  \S+ \S+ \S+ \S+ \S+ \S+ (?P<method>\S+) (?P<code>\d+) (?P<resp_time>\d+) (?P<bytes_out>\d+) '
+      resp_time_divider: 1e6
   "{{ .Name }}-{{ .Index }}.log":
     - type: match
       name: "unmatch_exception"
@@ -16,6 +17,7 @@ meta1:
   "{{ .Name }}-{{ .Index }}.access":
     - type: access
       pattern: '^\S+ \S+ \S+ \S+  \S+ \S+ \S+ \S+ \S+ \S+ (?P<method>\S+) (?P<code>\d+) (?P<resp_time>\d+) (?P<bytes_out>\d+) '
+      resp_time_divider: 1e6
   "{{ .Name }}-{{ .Index }}.log":
     - type: match
       name: "unmatch_exception"
@@ -24,6 +26,7 @@ meta2:
   "{{ .Name }}-{{ .Index }}.access":
     - type: access
       pattern: '^\S+ \S+ \S+ \S+  \S+ \S+ \S+ \S+ \S+ \S+ (?P<method>\S+) (?P<code>\d+) (?P<resp_time>\d+) (?P<bytes_out>\d+) '
+      resp_time_divider: 1e6
   "{{ .Name }}-{{ .Index }}.log":
     - type: match
       name: "unmatch_exception"
@@ -32,6 +35,7 @@ rawx:
   "{{ .Name }}-{{ .Index }}-httpd-access.log":
     - type: access
       pattern: '^\S+ \S+ \S+ \S+  \S+ \S+ \S+ \S+ \S+ \S+ (?P<method>\S+) (?P<code>\d+) (?P<resp_time>\d+) (?P<bytes_out>\d+) (?P<bytes_in>\d+) .* (?P<tag_protocol>https?)$'
+      resp_time_divider: 1e6
   "{{ .Name }}-{{ .Index }}-httpd-errors.log":
     - type: match
       name: "connection_reset_by_peer"
@@ -40,6 +44,7 @@ oioswift:
   "{{ .Name }}-{{ .Index }}.log":
     - type: access
       pattern: '^\S+ \S+ \S+ \S+  \S+ \S+ \S+ (?P<method>\S+) \S+ \S+ (?P<code>\d+) \S+ \S+ \S+ (?P<bytes_in>\d+|-) (?P<bytes_out>\d+|-) \S+ \S+ \S+ (?P<resp_time>\d+\.\d+) - '
+      resp_time_divider: 1
     - type: match
       name: "unmatch_exception"
       pattern: "Unhandled exception"
