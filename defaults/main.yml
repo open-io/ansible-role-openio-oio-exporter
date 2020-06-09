@@ -9,6 +9,17 @@ openio_oio_exporter_default_port: 6920
 openio_oio_exporter_daemons: []
 openio_oio_exporter_nodaemons: []
 
+openio_oio_exporter_oioswift_group: oioswift
+openio_oio_exporter_disable_s3rt: |-
+  {% set ret = true %}
+  {% set _group = openio_oio_exporter_oioswift_group %}
+  {% if _group in groups and groups[_group] | length > 0 and inventory_hostname in groups[_group] %}
+  {%   set _hosts = groups[_group] | sort %}
+  {%   if inventory_hostname in [_hosts | first, _hosts | last] %}
+  {%     set ret = false %}
+  {%   endif %}
+  {% endif %}
+  {{ ret }}
 
 openio_oio_exporter_targets_group: openio
 
