@@ -28,8 +28,12 @@
           {% if openio_oio_exporter_daemons | length > 0 -%}
           -daemons {{ openio_oio_exporter_daemons | join(',') }}
           {% endif -%}
-          {% if openio_oio_exporter_nodaemons | length > 0 -%}
-          -nodaemons {{ openio_oio_exporter_nodaemons | join(',') }}
+          {% set nodaemons = openio_oio_exporter_nodaemons -%}
+          {% if openio_oio_exporter_disable_s3rt | bool -%}
+          {%   set nodaemons = nodaemons + ['s3rt'] -%}
+          {% endif -%}
+          {% if nodaemons | length > 0 -%}
+          -nodaemons {{ nodaemons | join(',') }}
           {% endif -%}
         env:
           HOME: /home/openio
